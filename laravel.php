@@ -17,7 +17,7 @@ option('seed', null, \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONA
 
 task('laravel:database:migrate', function() {
 	cd('{release_path}');
-	run('php artisan migrate --env='.get('laravel_env'));
+	run('php artisan migrate --env='.env('laravel_env'));
 })->desc('Migrate database');
 
 task('laravel:database:seed', function() {
@@ -25,7 +25,7 @@ task('laravel:database:seed', function() {
 		return;
 	}
 	cd('{release_path}');
-	run('php artisan db:seed --env='.get('laravel_env'));
+	run('php artisan db:seed --env='.env('laravel_env'));
 })->desc('Seed database');
 
 task('deploy:laravel', [
