@@ -25,6 +25,38 @@ task('grunt:build', function() {
 	run('grunt build:'.$mode);
 })->desc('Grunt build');
 
+task('exolnet:deploy:update_code', function () {
+	$repository = get('repository');
+	$repoPath = "{deploy_path}/repo";
+
+	$branch = env('branch');
+	if (input()->hasOption('tag')) {
+		$tag = input()->getOption('tag');
+	}
+
+	$at = '';
+	if ( ! empty($tag)) {
+		$at = $tag;
+	} else if (!empty($branch)) {
+		$at = $branch;
+	}
+
+	$repoExists = run('if [ -d ' . $repoPath . ' ]; then echo \'true\'; fi;')->toBool();
+	if ( ! $repoExists) {
+		run('mkdir -p '.$repoPath);
+		cd($repoPath);
+		run('git clone ' . $repository . ' . 2>&1');
+	} else {
+		cd($repoPath);
+		run('git fetch origin');
+	}
+
+	run('git checkout -f ' . $at);
+})->desc('Updating code');
+
+task('exolnet:deploy:copy_code', function () {
+	run('rsync -avz {deploy_path}/repo/ {release_path} 2>&1');
+})->desc('Updating code');
 
 task('exolnet:deploy:writable', function () {
 	cd('{release_path}');
@@ -45,7 +77,8 @@ task('deploy:exolnet', [
 task('deploy', [
 	'deploy:prepare',
 	'deploy:release',
-    'deploy:update_code',
+	'exolnet:deploy:update_code',
+	'exolnet:deploy:copy_code',
 	'deploy:shared',
 	'exolnet:deploy:writable',
 	'deploy:exolnet',
