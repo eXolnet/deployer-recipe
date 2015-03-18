@@ -1,0 +1,29 @@
+{
+	"name": "exolnet/deployer-recipe",
+	"description": "eXolnet's Deployer recipes.",
+	"type": "library",
+	"keywords": [
+		"eXolnet",
+		"deployer",
+		"recipes"
+	],
+	"homepage": "https://github.com/eXolnet/deployer-recipe",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Tom Rochette",
+			"email": "trochette@exolnet.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/eXolnet/deployer-recipe/issues"
+	},
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "0.1-dev"
+		}
+	}
+}
